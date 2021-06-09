@@ -1,0 +1,33 @@
+version: '3'
+
+
+services: 
+  postgres-compose:
+    image: postgres
+    environment: 
+      - POSTGRES_PASSWORD="docker"
+      - POSTGRES_USER="postgres"
+      - TZ=GMT
+    ports: 
+      - "5434:5432"
+    volumes: 
+      - /home/jandernery/projetos/nodejs/desafio01-data-base-query/datadb:/var/lib/postgresql/data
+    networks: 
+      - postgres-compose-network
+
+  
+  pgadmin-compose:
+    image: dpage/pgadmin4
+    environment:
+      - PGADMIN_DEFAULT_EMAIL="jander.webmaster@gmail.com"
+      - PGADMIN_DEFAULT_PASSWORD="Jcn5263@"
+    ports:
+      - "16543:80"
+    depends_on:
+      - postgres-compose
+    networks:
+      - postgres-compose-network
+    
+networks: 
+  postgres-compose-network:
+    driver: bridge
